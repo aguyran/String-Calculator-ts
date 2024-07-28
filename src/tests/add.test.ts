@@ -1,5 +1,5 @@
 import add from "./add";
 
-test("initialize function", () => {
+test("parses empty string as 0", () => {
   expect(add("")).toBe(0);
 });
