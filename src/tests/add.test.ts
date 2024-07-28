@@ -25,3 +25,7 @@ test("parses filled string shouldn't contain negative number", () => {
     "Negative Numbers are not allowed -3,-4,-5,-6"
   );
 });
+
+test("check for invalid input,ending with delimiter ", () => {
+    expect(() => add("//;\n1;2;")).toThrow("Invalid Input");
+  });

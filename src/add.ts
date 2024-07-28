@@ -1,13 +1,20 @@
+type delimiterType = RegExp | string;
+
 function add(numbers: string): number {
   if (!numbers) {
     return 0;
   }
-  const [delimeter, parsedNumbers] = extractDelimiterAndNumber(numbers);
+  const [delimiter, parsedNumbers] = extractDelimiterAndNumber(numbers);
 
-  const splitNumbers = parsedNumbers.split(delimeter).map(Number);
+  const splitNumbers = parsedNumbers
+    .split(delimiter)
+    .map((num) => (num.trim() === "" ? NaN : Number(num)));
+
+  checkForInvalidInput(splitNumbers);
   checkIfNumberNegative(splitNumbers);
   return splitNumbers.reduce((acc, curr) => acc + curr, 0);
 }
+
 function checkIfNumberNegative(numbers: number[]) {
   const negativeNumbers: number[] = [];
   numbers.forEach((num) => (num < 0 ? negativeNumbers.push(num) : undefined));
@@ -18,8 +25,8 @@ function checkIfNumberNegative(numbers: number[]) {
   }
 }
 
-function extractDelimiterAndNumber(numbers: string): [RegExp | string, string] {
-  let delimiter: string | RegExp = /\n|,/;
+function extractDelimiterAndNumber(numbers: string): [delimiterType, string] {
+  let delimiter: delimiterType = /\n|,/;
 
   if (numbers.startsWith("//")) {
     const match = numbers.match(/\/\/(.*)\n/);
@@ -31,4 +38,11 @@ function extractDelimiterAndNumber(numbers: string): [RegExp | string, string] {
 
   return [delimiter, numbers];
 }
+
+function checkForInvalidInput(numbers: number[]) {
+  if (Number.isNaN(numbers?.at(-1))) {
+    throw new Error("Invalid Input");
+  }
+}
+
 export default add;
