@@ -3,7 +3,7 @@ function add(numbers: string): number {
     return 0;
   }
   return numbers
-    .split(",")
+    .split(/\n|,/)
     .map(Number)
     .reduce((acc, curr) => acc + curr, 0);
 }
